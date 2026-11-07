@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "MiniCpp - Build",
+            "type": "process",
+            "command": "wsl.exe",
+            "args": ["--cd", "${workspaceFolder}", "--exec", "make"],
+            "group": {"kind": "build", "isDefault": true},
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "MiniCpp - Start",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/start.ps1"],
+            "problemMatcher": []
+        },
+        {
+            "label": "MiniCpp - Verify",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/verify.ps1"],
+            "problemMatcher": []
+        }
+    ]
+}

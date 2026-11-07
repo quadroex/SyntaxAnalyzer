@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MiniCpp - Flex/Bison parser</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/app.js" defer></script>
+</head>
+<body>
+    <header>
+        <div><h1>MiniCpp</h1><p>C++ subset · Flex/Bison · LALR(1)</p></div>
+        <div class="pipeline">Source → Tokens → AST → Execution / JavaScript</div>
+    </header>
+    <main>
+        <section class="source-panel panel">
+            <div class="panel-heading"><h2>Source code</h2><span id="source-state">Ready</span></div>
+            <label for="examples">Example</label>
+            <select id="examples" aria-label="Example"></select>
+            <label for="source">C++ program</label>
+            <textarea id="source" spellcheck="false" aria-label="C++ source code"></textarea>
+            <label for="runtime-input">Program input for cin</label>
+            <textarea id="runtime-input" spellcheck="false" aria-label="Program input" placeholder="Numbers separated by spaces or newlines"></textarea>
+            <div class="actions">
+                <button id="analyze" class="primary">Analyze &amp; run</button>
+                <button id="run-js" disabled>Run JavaScript</button>
+            </div>
+            <div id="status" role="status" aria-live="polite">Loading example...</div>
+            <details>
+                <summary>Supported language</summary>
+                <p>int, double, bool, void functions, local variables, one-dimensional arrays, arithmetic, comparisons, logical operations, casts, conditional expressions, if/else, while, do/while, for, break, continue, return, function calls, recursion, std::cout and std::cin.</p>
+                <p>Use decimal numbers, function definitions or prototypes, #include &lt;iostream&gt; and optional using namespace std. Assignment and increment are statements or for clauses.</p>
+                <p>Array sizes are decimal constants from 1 to 4096. Arrays can be initialized with a list and passed to functions. Multidimensional arrays, pointers, classes, global variables and general preprocessing are outside this subset.</p>
+            </details>
+        </section>
+        <div class="results-panel">
+            <section class="panel">
+                <div class="panel-heading"><h2>Execution results</h2><span id="comparison">Not compared</span></div>
+                <div class="outputs">
+                    <div><h3>AST interpreter</h3><pre id="interpreter-output">Analyze a program to see its output.</pre><div id="interpreter-meta" class="meta"></div></div>
+                    <div><h3>Generated JavaScript</h3><pre id="javascript-output">Run the generated code to compare results.</pre><div id="javascript-meta" class="meta"></div></div>
+                </div>
+            </section>
+            <section class="panel tree-panel">
+                <div class="tabs" role="tablist" aria-label="Analysis views">
+                    <button id="tab-ast" role="tab" aria-selected="true" aria-controls="ast-view">AST</button>
+                    <button id="tab-code" role="tab" aria-selected="false" aria-controls="code-view">JavaScript</button>
+                    <button id="tab-help" role="tab" aria-selected="false" aria-controls="help-view">How it works</button>
+                </div>
+                <div id="ast-view" role="tabpanel" aria-labelledby="tab-ast">
+                    <div class="tree-tools">
+                        <button id="overview">Overview</button><button id="expand">Expand all</button>
+                        <button id="focus-node" disabled>Focus selected</button><button id="whole-tree">Whole tree</button>
+                        <button id="zoom-out" aria-label="Zoom out">−</button><span id="zoom-level">100%</span><button id="zoom-in" aria-label="Zoom in">+</button><button id="fit">Fit width</button>
+                    </div>
+                    <p class="hint">Click a node to expand or collapse it and select its source line. Use Focus selected to inspect a branch.</p>
+                    <div id="tree-path" class="meta">Program</div>
+                    <div id="tree-container"><svg id="tree" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Abstract syntax tree"></svg><p id="tree-empty">The AST will appear here.</p></div>
+                    <div id="node-details" class="meta">No node selected.</div>
+                </div>
+                <div id="code-view" role="tabpanel" aria-labelledby="tab-code" hidden>
+                    <div class="actions"><button id="download-js" disabled>Download program.js</button></div>
+                    <pre id="generated-code">Generated JavaScript will appear here.</pre>
+                </div>
+                <div id="help-view" role="tabpanel" aria-labelledby="tab-help" hidden>
+                    <ol>
+                        <li>Flex recognizes keywords, identifiers, numbers and operators using regular expressions in lexer.l.</li>
+                        <li>Bison uses grammar rules in parser.y and LALR(1) tables to build the AST.</li>
+                        <li>The semantic pass resolves names, checks types and assigns a unique symbol to every declaration.</li>
+                        <li>The C++ interpreter visits AST nodes and executes the program.</li>
+                        <li>The generator visits the same AST and emits JavaScript with numeric conversions.</li>
+                        <li>The browser draws the AST with JavaScript and SVG. Generated code runs in a separate Web Worker.</li>
+                    </ol>
+                    <p>Try 2 + 3 * 4. The multiplication is nested inside the addition in the AST.</p>
+                    <p>Limits are 32 KiB each of source and input, 100000 execution steps, 128 active calls, 65536 active array elements and 64 KiB of output.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

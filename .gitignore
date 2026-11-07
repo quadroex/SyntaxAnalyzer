@@ -1,0 +1,8 @@
+build/
+__pycache__/
+*.pyc
+/defense/
+/docs/*
+!/docs/LANGUAGE.md
+/preview.png
+*.zip
